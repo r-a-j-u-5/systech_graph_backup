@@ -1,0 +1,11 @@
+version : '3'
+services:
+  orientdb_server:
+    image: orientdb:3.2.28-tp3
+    environment:
+      ORIENTDB_ROOT_PASSWORD: raju5
+    volumes:
+      - /workspaces/systech_graph/orientdb-tp3/databases1:/orientdb/databases
+    ports:
+      - 2480:2480
+      - 2424:2424
