@@ -10,7 +10,9 @@ import {
   GetScenes,
   GetSites,
   GetOrganizations,
+  GetComponentDetailsWithChildren
 } from "../../../controllers/designer/read/controllers";
+import { GetComponentById } from "../../../controllers/designer/read/controllers";
 
 const router = Router();
 
@@ -22,5 +24,7 @@ router.get("/getGuardianServers", GetGuardianServers);
 router.get("/getSites", GetSites);
 router.get("/getOrganizations", GetOrganizations);
 router.get("/getScenes", GetScenes);
+router.get("/getComponentById", GetComponentById)
+router.get("/getComponentDetailsWithChildren", GetComponentDetailsWithChildren)
 
 export default router;

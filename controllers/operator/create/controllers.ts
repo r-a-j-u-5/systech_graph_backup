@@ -24,7 +24,7 @@ export const CreateTenant = async (req: Request, res: Response) => {
       }
     }
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result: any = await axios

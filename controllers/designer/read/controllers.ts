@@ -14,7 +14,7 @@ export const GetHierarchy = async (req: Request, res: Response) => {
     }
     const componentid = req.query.componentid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     let tree : any = {}
@@ -99,7 +99,7 @@ export const GetHierarchyIOT = async (req: Request, res: Response) => {
     }
     const componentid = req.query.componentid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     let tree : any = {}
@@ -184,7 +184,7 @@ export const GetHierarchyUI = async (req: Request, res: Response) => {
     }
     const componentid = req.query.componentid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     let tree : any = {}
@@ -263,7 +263,7 @@ export const GetHierarchyUI = async (req: Request, res: Response) => {
 export const GetEnvironments = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result = await axios.post(
@@ -290,7 +290,7 @@ export const GetEnvironments = async (req: Request, res: Response) => {
 export const GetGuardianServers = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     await axios
@@ -319,7 +319,7 @@ export const GetGuardianServers = async (req: Request, res: Response) => {
 export const GetSites = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     await axios
@@ -348,7 +348,7 @@ export const GetSites = async (req: Request, res: Response) => {
 export const GetOrganizations = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     await axios
@@ -377,7 +377,7 @@ export const GetOrganizations = async (req: Request, res: Response) => {
 export const GetScenes = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     await axios
@@ -402,3 +402,100 @@ export const GetScenes = async (req: Request, res: Response) => {
     res.status(400).json({ msg: "Cannot Fetch Scenes!" });
   }
 };
+
+export const GetComponentById = async (req : Request, res : Response) => {
+  try {
+    try {
+      VertexId.parse(req.query.componentid);
+    } catch (err) {
+      return res.status(403).json({ msg: "Invalid Data!" });
+    }
+    const componentid = req.query.componentid;
+    const authHeader = await GenerateAuthorizationHeader(
+      `${process.env.USERNAME}`,
+      `${process.env.PASSWORD}`
+    );
+    await axios
+      .post(
+        `${process.env.COMMAND_ENDPOINT}`,
+        {
+          command: `g.V().hasId('${componentid}')`,
+        },
+        {
+          headers: {
+            Authorization: authHeader,
+          },
+        }
+      )
+      .then((result) => {
+        res.status(200).json({
+          msg: "Fetched Component Details successfully!",
+          data: result.data.result[0],
+        });
+      });
+  } catch (err) {
+    res.status(400).json({ msg: "Cannot Fetch Component Details!" });
+  }
+}
+
+export const GetComponentDetailsWithChildren = async (req: Request, res : Response) => {
+  try {
+    try {
+      VertexId.parse(req.query.componentid);
+    } catch (err) {
+      return res.status(403).json({ msg: "Invalid Data!" });
+    }
+    const componentid = req.query.componentid;
+    const authHeader = await GenerateAuthorizationHeader(
+      `${process.env.USERNAME}`,
+      `${process.env.PASSWORD}`
+    );
+    let root : any = {}
+    let nodes: any = []
+    try {
+    root = await axios
+      .post(
+        `${process.env.COMMAND_ENDPOINT}`,
+        {
+          command: `g.V().hasId('${componentid}')`,
+        },
+        {
+          headers: {
+            Authorization: authHeader,
+          },
+        }
+      )
+    }
+      catch(err) {
+        return res.status(400).json({ msg: "Cannot Fetch Component from DB!" })
+      }
+      try {
+    nodes = await axios
+      .post(
+        `${process.env.COMMAND_ENDPOINT}`,
+        {
+          command: `g.V().hasId('${componentid}').out('contains')`,
+        },
+        {
+          headers: {
+            Authorization: authHeader,
+          },
+        }
+      )
+    }
+      catch(err) {
+        return res.status(402).json({ msg: "Cannot Fetch Component Children from DB!" })
+      }
+    root = root.data.result[0];
+    nodes = nodes.data.result;
+    
+    root["children"] = nodes
+
+    return res.status(200).json({
+      msg: "Component Details and its Children fetched successfully!",
+      data: root,
+    });
+  } catch (err) {
+    return res.status(401).json("Cannot fetch Component Details and its Children!");
+  }
+}
