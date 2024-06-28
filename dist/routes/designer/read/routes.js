@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const controllers_1 = require("../../../controllers/designer/read/controllers");
+const router = (0, express_1.Router)();
+router.get("/getHierarchy", controllers_1.GetHierarchy);
+router.get("/getHierarchyIOT", controllers_1.GetHierarchyIOT);
+router.get("/getHierarchyUI", controllers_1.GetHierarchyUI);
+router.get("/getEnvironments", controllers_1.GetEnvironments);
+router.get("/getGuardianServers", controllers_1.GetGuardianServers);
+router.get("/getSites", controllers_1.GetSites);
+router.get("/getOrganizations", controllers_1.GetOrganizations);
+router.get("/getScenes", controllers_1.GetScenes);
+exports.default = router;
