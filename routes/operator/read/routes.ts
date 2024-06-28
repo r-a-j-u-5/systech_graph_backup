@@ -5,9 +5,9 @@ import {
   GetAdvisors,
   GetSentries,
   GetComponentData,
-  GetTenants
+  GetTenants,
+  GetHierarchyTenant
 } from "../../../controllers/operator/read/controllers";
-import { GetHierarchyTenant } from "../../../controllers/operator/read/controllers";
 
 const router = Router();
 

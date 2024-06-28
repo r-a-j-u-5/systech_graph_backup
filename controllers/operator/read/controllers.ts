@@ -8,7 +8,7 @@ dotenv.config();
 export const GetAdvisors = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result = await axios.post(
@@ -35,7 +35,7 @@ export const GetAdvisors = async (req: Request, res: Response) => {
 export const GetSentries = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     await axios
@@ -64,7 +64,7 @@ export const GetSentries = async (req: Request, res: Response) => {
 export const GetTenants = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result = await axios.post(
@@ -97,7 +97,7 @@ export const GetComponentData = async (req: Request, res : Response) => {
     }
     const componentid = req.query.componentid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     let root : any = {}
@@ -159,7 +159,7 @@ export const GetHierarchyTenant = async (req: Request, res: Response) => {
     }
     const tenantid = req.query.tenantid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     let tree : any = {}
@@ -234,4 +234,5 @@ export const GetHierarchyTenant = async (req: Request, res: Response) => {
     return res.status(401).json("Cannot fetch Hierarchy");
   }
 };
+
 

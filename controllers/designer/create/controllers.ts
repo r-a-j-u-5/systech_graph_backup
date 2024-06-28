@@ -23,7 +23,7 @@ export const CreateComponentUI = async (req: Request, res: Response) => {
         else command += `.property('${key}',${value})`;
     }
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result: any = await axios
@@ -85,7 +85,7 @@ export const CreateComponentIOT = async (req: Request, res: Response) => {
         else command += `.property('${key}',${value})`;
     }
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
+      `${process.env.USERNAME}`,
       `${process.env.PASSWORD}`
     );
     const result: any = await axios
