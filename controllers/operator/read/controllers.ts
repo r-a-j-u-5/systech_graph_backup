@@ -8,8 +8,8 @@ dotenv.config();
 export const GetAdvisors = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     const result = await axios.post(
       `${process.env.COMMAND_ENDPOINT}`,
@@ -35,8 +35,8 @@ export const GetAdvisors = async (req: Request, res: Response) => {
 export const GetSentries = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     await axios
       .post(
@@ -64,8 +64,8 @@ export const GetSentries = async (req: Request, res: Response) => {
 export const GetTenants = async (req: Request, res: Response) => {
   try {
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     const result = await axios.post(
       `${process.env.COMMAND_ENDPOINT}`,
@@ -97,8 +97,8 @@ export const GetComponentData = async (req: Request, res : Response) => {
     }
     const componentid = req.query.componentid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     let root : any = {}
     let nodes: any = []
@@ -159,8 +159,8 @@ export const GetHierarchyTenant = async (req: Request, res: Response) => {
     }
     const tenantid = req.query.tenantid;
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     let tree : any = {}
     let nodes: any = []
@@ -234,4 +234,5 @@ export const GetHierarchyTenant = async (req: Request, res: Response) => {
     return res.status(401).json("Cannot fetch Hierarchy");
   }
 };
+
 

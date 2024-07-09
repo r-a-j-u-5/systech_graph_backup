@@ -23,8 +23,8 @@ export const CreateComponentUI = async (req: Request, res: Response) => {
         else command += `.property('${key}',${value})`;
     }
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     const result: any = await axios
       .post(
@@ -85,8 +85,8 @@ export const CreateComponentIOT = async (req: Request, res: Response) => {
         else command += `.property('${key}',${value})`;
     }
     const authHeader = await GenerateAuthorizationHeader(
-      `${process.env.USER}`,
-      `${process.env.PASSWORD}`
+      `${process.env.ORIENTDB_USERNAME}`,
+      `${process.env.ORIENTDB_PASSWORD}`
     );
     const result: any = await axios
       .post(
